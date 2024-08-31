@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teleport Lyrics</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: 'Serif', sans-serif;
+            text-align: center;
+        }
+
+        #background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: url('space.gif') no-repeat center center;
+            background-size: cover;
+        }
+
+        #lyrics {
+            position: relative;
+            z-index: 1;
+            width: 80%;
+        }
+
+        #play-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        #play-button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        #play-button:active {
+            background-color: #004085;
+        }
+    </style>
+</head>
+<body>
+    <div id="background"></div>
+    <div id="lyrics"></div>
+    <button id="play-button">Play BANGG💋</button>
+    
+    <audio id="background-audio" preload="auto">
+        <source src="jkt48 (online-audio-converter.com).mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const lyrics = [
+            "Dirimu yang selama ini, ada di situ",
+            "Mengapa hanya dalam sesaat",
+            "Ke tempat diriku berada",
+            "Hissatsu teleport",
+            "Hingga di angkasa sana, di kejauhan",
+            "Pertemuan antara kita berdua",
+            "Tempat yang tak ada siapapun",
+            "Hissatsu teleport"
+        ];
+
+        const delays = [
+            500, 600, 900, 17000, 500, 500, 400, 6000
+        ];
+
+        let currentIndex = 0;
+        let currentCharIndex = 0;
+        let currentLine = "";
+
+        function typeLyrics() {
+            if (currentIndex < lyrics.length) {
+                if (currentCharIndex < lyrics[currentIndex].length) {
+                    currentLine += lyrics[currentIndex].charAt(currentCharIndex);
+                    document.getElementById("lyrics").textContent = currentLine;
+                    currentCharIndex++;
+                    setTimeout(typeLyrics, 130); // Speed of typing effect
+                } else {
+                    setTimeout(() => {
+                        currentIndex++;
+                        currentLine = "";
+                        currentCharIndex = 0;
+                        typeLyrics();
+                    }, delays[currentIndex]); // Delay before next line
+                }
+            }
+        }
+
+        document.getElementById('play-button').addEventListener('click', function() {
+            const audio = document.getElementById('background-audio');
+            audio.muted = false; // Ensure audio is not muted
+            audio.play().catch(error => {
+                console.log("Audio play failed: ", error);
+            });
+
+            // Add a longer delay before starting the lyrics typing effect
+            setTimeout(() => {
+                typeLyrics(); // Start typing lyrics after a longer delay
+            }, 3999); // 5 seconds delay before lyrics start
+        });
+    </script>
+</body>
+</html>
